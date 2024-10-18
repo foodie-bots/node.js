@@ -1,4 +1,11 @@
-import userRoutes from './routes/userRoutes.js';
-
-// Use Routes
-app.use('/api/users', userRoutes);
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>foodies</title>
+</head>
+<body>
+    <h1>Hello Foodies</h1>
+</body>
+</html>
