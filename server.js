@@ -1,30 +1,27 @@
-// server.js
-import express from 'express';
-import mongoose from 'mongoose';
-import dotenv from 'dotenv';
-import cors from 'cors';
+const http = require('http');
+const fs = require('fs');
+const path = require('path');
 
-dotenv.config();
+const hostname = 'foodies';
+const port = 3000;
 
-const app = express();
-app.use(cors());
-app.use(express.json()); // for parsing application/json
+const server = http.createServer((req, res) => {
+    // Serve the index.html file
+    const filePath = path.join(__dirname, 'index.html');
 
-// MongoDB Connection
-mongoose.connect(process.env.MONGO_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-})
-  .then(() => console.log('MongoDB connected'))
-  .catch(err => console.error(err));
-
-// Basic route
-app.get('/', (req, res) => {
-  res.send('Welcome to the eCommerce API!');
+    fs.readFile(filePath, (err, data) => {
+        if (err) {
+            res.statusCode = 500;
+            res.setHeader('Content-Type', 'text/plain');
+            res.end('Error loading the page\n');
+        } else {
+            res.statusCode = 200;
+            res.setHeader('Content-Type', 'text/html');
+            res.end(data);
+        }
+    });
 });
 
-// Start server
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+server.listen(port, hostname, () => {
+    console.log(`Server running at http://${hostname}:${port}/`);
 });
